@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nebula Nexus Dashboard</title>
+    <style>
+        /* Overall Body and Layout Styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            overflow: hidden; /* Prevent scrolling */
+        }
+
+        .dashboard {
+            max-width: 1200px;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box; /* Include padding in width calculation */
+            position: relative;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 20px; /* Reduce margin for better fit */
+            color: #00d4ff;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+        /* Back Button Styling */
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #00d4ff;
+            color: #121212;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .back-button:hover {
+            background-color: #00a4cc; /* Darker shade for hover effect */
+        }
+
+        /* Updated Grid Layout for Charts and Info Boxes */
+        .container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Three even columns */
+            grid-template-rows: repeat(3, 1fr); /* Three rows */
+            gap: 10px; /* Reduce gap between elements */
+            height: calc(100vh - 80px); /* Adjust height to fit screen */
+        }
+
+        .chart-box, .info-box {
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            padding: 10px; /* Reduce padding */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Space out content */
+        }
+
+        .chart-box {
+            height: 100%; /* Allow it to fill the height */
+        }
+
+        .info-box {
+            height: 120px;
+        }
+
+        .header {
+            font-size: 18px;
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: bold;
+            color: #00d4ff;
+        }
+
+        svg {
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Footer Styling */
+        .footer {
+            grid-column: span 3; /* Make the footer span all columns */
+            text-align: center;
+            padding: 10px;
+            font-size: 14px;
+            color: #888;
+        }
+
+        /* Chart Box Styling */
+        .chart-box {
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            padding: 15px; /* Consistent padding for all chart boxes */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Center contents vertically */
+            align-items: center; /* Center contents horizontally */
+            height: 200px; /* Set a fixed height for better layout */
+            position: relative; /* Allow for absolute positioning of inner elements */
+        }
+
+        /* Info Box Styling */
+        .info-box {
+            background-color: #2a2a2a; /* Darker background for info boxes */
+            border-radius: 10px;
+            padding: 15px; /* Consistent padding */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Center contents vertically */
+            align-items: center; /* Center contents horizontally */
+            height: 120px; /* Consistent height for info boxes */
+        }
+
+        /* Info Box Header */
+        .info-box .header {
+            font-size: 18px;
+            margin-bottom: 5px; /* Reduced margin for a compact look */
+            text-align: center;
+            font-weight: bold;
+            color: #00d4ff; /* Color for the header text */
+        }
+
+        /* Style for the dynamic values in info boxes */
+        #instances {
+            font-size: 36px;
+            text-align: center;
+            color: #00ff95; /* Bright color for instance count */
+        }
+
+        #details {
+            font-size: 18px;
+            text-align: center;
+            color: #f39c12; /* Color for status details */
+        }
+
+        /* Footer Styling */
+        .footer {
+            grid-column: span 3;
+            text-align: center;
+            padding: 10px;
+            font-size: 14px;
+            color: #888;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="dashboard">
+    <!-- Back Button -->
+    <button class="back-button" onclick="window.location.href='first.html';">Back</button>
+
+    <h1>NEBULA NEXUS</h1>
+    <div class="container">
+        <!-- CPU Utilization Gauge -->
+        <div class="chart-box" id="cpu-gauge">
+            <div class="header">CPU Utilization</div>
+        </div>
+        
+        <div class="chart-box" id="network-inbound">
+            <div class="header">Network Inbound (kbps)</div>
+        </div>
+        
+        <div class="chart-box" id="network-outbound">
+            <div class="header">Network Outbound (kbps)</div>
+        </div>
+
+        <!-- Bar Chart for Disk I/O -->
+        <div class="chart-box" id="disk-io">
+            <div class="header">Disk I/O</div>
+        </div>
+        
+        <div class="info-box" id="instances-box">
+            <div class="header">No. of Instances</div>
+            <div id="instances">1</div>
+        </div>
+        
+        <div class="info-box" id="other-box">
+            <div class="header">Other Details</div>
+            <div id="details">CPU Load Normal</div>
+        </div>
+        
+        <!-- Footer for additional info -->
+        <div class="footer">
+            Nebula Nexus &copy; 2024 | AI-based Cloud Resource Auto-Scheduler
+        </div>
+    </div>
+</div>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script>
+    // Gauge for CPU Utilization
+    function drawCpuGauge() {
+        const width = 300, height = 150;
+        const svg = d3.select("#cpu-gauge").append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+        const arc = d3.arc()
+            .innerRadius(70)
+            .outerRadius(90)
+            .startAngle(-Math.PI / 2);
+
+        const backgroundArc = svg.append("path")
+            .datum({ endAngle: Math.PI / 2 })
+            .style("fill", "#444")
+            .attr("d", arc)
+            .attr("transform", `translate(${width / 2},${height})`);
+
+        const foregroundArc = svg.append("path")
+            .datum({ endAngle: -Math.PI / 2 })
+            .style("fill", "#00ff95")
+            .attr("d", arc)
+            .attr("transform", `translate(${width / 2},${height})`);
+
+        const cpuLabel = svg.append("text")
+            .attr("x", width / 2)
+            .attr("y", height - 20)
+            .attr("text-anchor", "middle")
+            .style("fill", "#fff")
+            .style("font-size", "16px")
+            .text("0%");
+
+        let instanceCount = 1; // Initial instance count
+
+        function updateCpuUsage(value) {
+            foregroundArc.transition()
+                .duration(750)
+                .attrTween("d", d => {
+                    const interpolate = d3.interpolate(d.endAngle, (Math.PI * value / 100) - Math.PI / 2);
+                    return t => {
+                        d.endAngle = interpolate(t);
+                        return arc(d);
+                    };
+                });
+
+            cpuLabel.text(`${Math.round(value)}%`);
+
+            // Update CPU Load Details
+            const details = document.getElementById("details");
+            const instanceChangeMessage = document.getElementById("instances");
+
+            if (value > 70) {
+                details.textContent = "CPU Load High";
+                instanceCount += 1; // Add instance
+                instanceChangeMessage.textContent = "Instance added.";
+            } else if (value < 30) {
+                details.textContent = "CPU Load Low";
+                if (instanceCount > 0) {
+                    instanceCount -= 1; // Remove instance
+                    instanceChangeMessage.textContent = "Instance removed.";
+                } else {
+                    instanceChangeMessage.textContent = ""; // No instances to remove
+                }
+            } else {
+                details.textContent = "CPU Load Normal";
+                instanceChangeMessage.textContent = ""; // No change message
+            }
+
+            // Update instance count display
+            document.getElementById("instances").textContent = instanceCount;
+        }
+
+        setInterval(() => {
+            const cpuUsage = Math.random() * 100;
+            updateCpuUsage(cpuUsage);
+        }, 3000); // Update every 3 seconds
+    }
+    drawCpuGauge();
+
+    // Line chart for Network Inbound and Outbound
+    function drawNetworkLine(id, color, label) {
+        const width = 300, height = 150;
+        const svg = d3.select(id).append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+        const xScale = d3.scaleLinear().domain([0, 29]).range([0, width - 20]);
+        const yScale = d3.scaleLinear().domain([0, 100]).range([height, 0]);
+
+        const line = d3.line()
+            .x((d, i) => xScale(i))
+            .y(d => yScale(d));
+
+        const path = svg.append("path")
+            .data([d3.range(30).map(() => Math.random() * 100)])
+            .attr("fill", "none")
+            .attr("stroke", color)
+            .attr("stroke-width", 2)
+            .attr("d", line);
+
+        const inboundLabel = svg.append("text")
+            .attr("x", width - 20)
+            .attr("y", 20)
+            .attr("text-anchor", "end")
+            .style("fill", "#fff")
+            .style("font-size", "12px")
+            .text(`${label}: 0 kbps`);
+
+        function updateNetwork() {
+            const newData = d3.range(30).map(() => Math.random() * 100);
+            path.data([newData])
+                .attr("d", line);
+
+            inboundLabel.text(`${label}: ${Math.round(newData[newData.length - 1])} kbps`);
+        }
+
+        setInterval(updateNetwork, 3000); // Update every 3 seconds
+    }
+    drawNetworkLine("#network-inbound", "#00d4ff", "Inbound");
+    drawNetworkLine("#network-outbound", "#ff5733", "Outbound");
+
+    // Bar Chart for Disk I/O
+    function drawDiskIOChart() {
+        const width = 300, height = 150;
+        const svg = d3.select("#disk-io").append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+        const xScale = d3.scaleBand().domain(d3.range(5)).range([0, width]).padding(0.1);
+        const yScale = d3.scaleLinear().domain([0, 100]).range([height, 0]);
+
+        const bars = svg.selectAll("rect")
+            .data(d3.range(5).map(() => Math.random() * 100))
+            .enter().append("rect")
+            .attr("x", (d, i) => xScale(i))
+            .attr("y", d => yScale(d))
+            .attr("width", xScale.bandwidth())
+            .attr("height", d => height - yScale(d))
+            .attr("fill", "#f39c12");
+
+        function updateDiskIO() {
+            const newData = d3.range(5).map(() => Math.random() * 100);
+            bars.data(newData)
+                .transition().duration(750)
+                .attr("y", d => yScale(d))
+                .attr("height", d => height - yScale(d));
+        }
+
+        setInterval(updateDiskIO, 3000); // Update every 3 seconds
+    }
+    drawDiskIOChart();
+
+    // Simulating the "No. of Instances" and "Other Details" sections
+    function updateOtherDetails() {
+        
+    }
+    let instanceCount = 1; // Start with 1 instance
+
+function updateInstancesBasedOnCpu(cpuUtilization) {
+    const instancesDisplay = document.getElementById("instances");
+    const instanceChangeMessage = document.getElementById("instance-change-message"); // Add this element to display messages
+
+    if (cpuUtilization > 70) {
+        // CPU utilization is high
+        instanceCount += 1; // Add one instance
+        instanceChangeMessage.textContent = "An instance was added."; // Message indicating an instance was added
+    } else if (cpuUtilization < 30) {
+        // CPU utilization is low
+        if (instanceCount > 1) { // Ensure at least one instance remains
+            instanceCount -= 1; // Remove one instance
+            instanceChangeMessage.textContent = "An instance was removed."; // Message indicating an instance was removed
+        } else {
+            instanceChangeMessage.textContent = ""; // Clear message if no instance is removed
+        }
+    } else {
+        // CPU utilization is in normal range
+        instanceChangeMessage.textContent = ""; // Clear any previous messages
+    }
+
+    // Update the displayed number of instances
+    instancesDisplay.textContent = instanceCount;
+}
+
+    setInterval(updateOtherDetails, 3000);
+    
+</script>
+</body>
+</html>

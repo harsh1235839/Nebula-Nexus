@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nebula Nexus Instances</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            padding: 20px;
+            position: relative; /* For absolute positioning of back button */
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 40px;
+            color: #00d4ff;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+        .instance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .instance-card {
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+            transition: transform 0.2s, box-shadow 0.2s;
+            height: 240px;
+        }
+
+        .instance-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.8);
+            background-color: #2a2a2a; /* Darken on hover */
+        }
+
+        .instance-card h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #00ff95;
+        }
+
+        .instance-card p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+
+        .status {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #f39c12;
+        }
+
+        .cpu-utilization {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #00d4ff;
+        }
+
+        .cpu-utilization span {
+            font-weight: bold;
+            color: green; /* Default color */
+        }
+
+        .cpu-utilization span[data-utilization="high"] {
+            color: #ff4757; /* Highlight for high CPU usage */
+        }
+
+        .cpu-utilization span[data-utilization="low"] {
+            color: #28a745; /* Green for low CPU usage */
+        }
+
+        .instance-card a {
+            text-decoration: none;
+            color: #00d4ff;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 15px;
+        }
+
+        .instance-card a:hover {
+            text-decoration: underline;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #00d4ff;
+            color: #121212;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .back-button:hover {
+            background-color: #00a4cc; /* Darker shade for hover effect */
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 28px;
+            }
+
+            .instance-card {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="window.location.href='login.html';" aria-label="Sign Out">Sign Out</button>
+    <div class="container">
+        <h1>Nebula Nexus - Cloud Instances</h1>
+        
+        <section class="instance-grid">
+            <!-- Instance 1 -->
+            <div class="instance-card">
+                <h2>Instance 1</h2>
+                <p>ID: i-1234567890abcdef</p>
+                <p>Type: t2.medium</p>
+                <p>Status: Running</p>
+                <p class="cpu-utilization">CPU Utilization: <span data-utilization="high">85%</span></p>
+                <p class="status">⚠️ Needs Attention</p>
+                <a href="index.html">View Details</a>
+            </div>
+
+            <!-- Instance 2 -->
+            <div class="instance-card">
+                <h2>Instance 2</h2>
+                <p>ID: i-0987654321fedcba</p>
+                <p>Type: t2.large</p>
+                <p>Status: Stopped</p>
+                <p class="cpu-utilization">CPU Utilization: <span data-utilization="low">0%</span></p>
+                <p class="status">⏸️ Stopped</p>
+                <a href="index.html">View Details</a>
+            </div>
+
+            <!-- Instance 3 -->
+            <div class="instance-card">
+                <h2>Instance 3</h2>
+                <p>ID: i-1122334455667788</p>
+                <p>Type: t3.small</p>
+                <p>Status: Running</p>
+                <p class="cpu-utilization">CPU Utilization: <span data-utilization="low">40%</span></p>
+                <p class="status">✔️ Running Smooth</p>
+                <a href="index.html">View Details</a>
+            </div>
+
+            <!-- Instance 4 -->
+            <div class="instance-card">
+                <h2>Instance 4</h2>
+                <p>ID: i-3344556677889900</p>
+                <p>Type: t3.medium</p>
+                <p>Status: Running</p>
+                <p class="cpu-utilization">CPU Utilization: <span data-utilization="low">30%</span></p>
+                <p class="status">✔️ Running Smooth</p>
+                <a href="index.html">View Details</a>
+            </div>
+
+            <!-- Instance 5 -->
+            <div class="instance-card">
+                <h2>Instance 5</h2>
+                <p>ID: i-2233445566778899</p>
+                <p>Type: t2.micro</p>
+                <p>Status: Running</p>
+                <p class="cpu-utilization">CPU Utilization: <span data-utilization="high">95%</span></p>
+                <p class="status">⚠️ Needs Immediate Attention</p>
+                <a href="index.html">View Details</a>
+            </div>
+
+            <!-- Instance 6 -->
+            <div class="instance-card">
+                <h2>Instance 6</h2>
+                <p>ID: i-9988776655443322</p>
+                <p>Type: t2.micro</p>
+                <p>Status: Running</p>
+                <p class="cpu-utilization">CPU Utilization: <span data-utilization="low">65%</span></p>
+                <p class="status">✔️ Running Smooth</p>
+                <a href="index.html">View Details</a>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Optional: You can implement any additional interactivity here
+        document.querySelectorAll('.cpu-utilization span').forEach(span => {
+            const value = parseInt(span.textContent);
+            if (value > 80) {
+                span.setAttribute('data-utilization', 'high');
+            } else if (value < 40) {
+                span.setAttribute('data-utilization', 'low');
+            }
+        });
+    </script>
+</body>
+</html>
